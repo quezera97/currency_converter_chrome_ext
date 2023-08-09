@@ -7,19 +7,20 @@ const exchangeTable = document.querySelector('.exchange-table');
 var selectedCurrencyTo = '';
 var selectedCurrencyFrom = '';
 
+fetchData('MYR', 'USD');
+
 dropdownCurrencyFrom.addEventListener("change", () => {
     selectedCurrencyFrom = dropdownCurrencyFrom.value;
-    fetchData();
+    fetchData(selectedCurrencyFrom, selectedCurrencyTo);
     
 });
 
 dropdownCurrencyTo.addEventListener("change", () => {
     selectedCurrencyTo = dropdownCurrencyTo.value;
-    fetchData();
-    
+    fetchData(selectedCurrencyFrom, selectedCurrencyTo);
 });
 
-async function fetchData() {
+async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
     if(selectedCurrencyFrom != '' && selectedCurrencyTo != ''){
         loadingIndicator.style.display = 'block';
         exchangeTable.style.display = 'none';
@@ -44,6 +45,7 @@ async function fetchData() {
             document.getElementById("from_currency").innerHTML = fromCurrency;
             document.getElementById("to_currency").innerHTML = toCurrency;
             document.getElementById("exchange_rate").innerHTML = exchangeRate;
+            document.getElementById("refresh_time").innerHTML = refreshTime;
 
             loadingIndicator.style.display = 'none';
             exchangeTable.style.display = 'table';
@@ -54,5 +56,11 @@ async function fetchData() {
             
         }
         
+    }
+    else{
+        document.getElementById("from_currency").innerHTML = '-';
+        document.getElementById("to_currency").innerHTML = '-';
+        document.getElementById("exchange_rate").innerHTML = '-';
+        document.getElementById("refresh_time").innerHTML = '';
     }
 }
