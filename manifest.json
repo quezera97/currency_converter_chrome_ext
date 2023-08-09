@@ -1,0 +1,15 @@
+{
+    "name": "Forex (FX)",
+    "version": "1.0.0",
+    "description": "Forex currency exchange including cryptocurrency",
+    "manifest_version": 3,
+    "author": "QueZera",
+    "action":{
+        "default_popup": "index.html"
+    },
+    "icons": {
+        "16": "assets/currency.png",
+        "48": "assets/currency.png",
+        "128": "assets/currency.png"
+    }
+}
