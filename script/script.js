@@ -6,8 +6,7 @@ var selectedCurrencyFrom = '';
 
 fetchData('MYR', 'USD');
 
-$('#dropdown-currency_from').select2();
-$('#dropdown-currency_to').select2();
+$('.select2').select2();
 
 $('#dropdown-currency_from').on('change', function() {
     selectedCurrencyFrom = $('#dropdown-currency_from').val();
@@ -28,6 +27,7 @@ async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
         try {
             const response = await fetch("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="+selectedCurrencyFrom+"&to_currency="+selectedCurrencyTo+"&apikey=VM27KH7WXXV9ELRZ");
             const data = await response.json();
+
             const exchangeRateInfo = data["Realtime Currency Exchange Rate"];
 
             const fromCurrencyCode = exchangeRateInfo["1. From_Currency Code"];

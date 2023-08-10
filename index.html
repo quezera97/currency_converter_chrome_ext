@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/select2.min.css"/>
+        <link rel="stylesheet" href="node_modules/select2/dist/css/select2.min.css"/>
         <link rel="stylesheet" href="assets/style.css">
     </head>
 
@@ -18,7 +18,7 @@
             <div class="exchange-container">
                 <div class="currency-select">
                     <h3>From</h3>
-                    <select id="dropdown-currency_from">
+                    <select class="select2" id="dropdown-currency_from">
                         <option value="" selected="1">Choose Following Currencies</option>
                         <option value="ALL">Albanian Lek</option>
                         <option value="DZD">Algerian Dinar</option>
@@ -163,11 +163,11 @@
                         <option value="XOF">West African CFA franc</option>
                         <option value="YER">Yemeni Rial</option>
                         <option value="ZMW">Zambian Kwacha</option>
-                    </select>
+                    </select>                    
                 </div>
                 <div class="currency-select">
                     <h3>To</h3>
-                    <select id="dropdown-currency_to">
+                    <select class="select2" id="dropdown-currency_to">
                         <option value="" selected="1">Choose Following Currencies</option>
                         <option value="ALL">Albanian Lek</option>
                         <option value="DZD">Algerian Dinar</option>
@@ -339,8 +339,8 @@
             </div>
         </div>
 
-        <script src="script/jquery-3.7.0.min.js"></script>
-        <script src="script/select2.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/select2/dist/js/select2.full.min.js"></script>
         <script src="script/script.js"></script>
     </body>
 </html>
