@@ -1,6 +1,3 @@
-const dropdownCurrencyFrom = document.getElementById('dropdown-currency_from');
-const dropdownCurrencyTo = document.getElementById('dropdown-currency_to');
-
 const loadingIndicator = document.getElementById('loading-indicator');
 const exchangeTable = document.querySelector('.exchange-table');
 
@@ -9,18 +6,21 @@ var selectedCurrencyFrom = '';
 
 fetchData('MYR', 'USD');
 
-dropdownCurrencyFrom.addEventListener("change", () => {
-    selectedCurrencyFrom = dropdownCurrencyFrom.value;
+$('#dropdown-currency_from').select2();
+$('#dropdown-currency_to').select2();
+
+$('#dropdown-currency_from').on('change', function() {
+    selectedCurrencyFrom = $('#dropdown-currency_from').val();
     fetchData(selectedCurrencyFrom, selectedCurrencyTo);
-    
 });
 
-dropdownCurrencyTo.addEventListener("change", () => {
-    selectedCurrencyTo = dropdownCurrencyTo.value;
+$('#dropdown-currency_to').on('change', function() {
+    selectedCurrencyTo = $('#dropdown-currency_to').val();
     fetchData(selectedCurrencyFrom, selectedCurrencyTo);
 });
 
 async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
+
     if(selectedCurrencyFrom != '' && selectedCurrencyTo != ''){
         loadingIndicator.style.display = 'block';
         exchangeTable.style.display = 'none';
