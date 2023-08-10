@@ -3,6 +3,10 @@ body, h1, h2, h3, p, ul, li {
     padding: 0;
 }
 
+#swap-btn:hover {
+  fill: #c0c0c0;
+}
+
 .date {
     font-style: italic;
 }
@@ -46,12 +50,12 @@ h3 {
     text-align: center;
 }
 
-.exchange-table {
+.exchange-table, .exchange-currency {
     width: 100%;
     border-collapse: collapse;
 }
 
-.exchange-table th, .exchange-table td {
+.exchange-table th, .exchange-table td, .exchange-currency th, .exchange-currency td {
     padding: 10px;
     border: 1px solid #ddd;
 }

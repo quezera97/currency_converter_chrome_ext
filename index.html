@@ -165,6 +165,15 @@
                         <option value="ZMW">Zambian Kwacha</option>
                     </select>                    
                 </div>
+                <div>
+                    <svg id="swap-btn" width="24" height="24" focusable="false" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="m16.629 11.999-1.2-1.2 3.085-3.086H2.572V5.999h15.942L15.43 
+                            2.913l1.2-1.2 4.543 4.543a.829.829 0 0 1 0 1.2l-4.543 4.543Zm-9.257-.001 1.2 1.2-3.086 
+                            3.086h15.943v1.714H5.486l3.086 3.086-1.2 1.2-4.543-4.543a.829.829 0 0 1 0-1.2l4.543-4.543Z"
+                        >
+                        </path>
+                    </svg>
+                </div>
                 <div class="currency-select">
                     <h3>To</h3>
                     <select class="select2" id="dropdown-currency_to">
@@ -330,6 +339,25 @@
                             <td id="from_currency"></td>
                             <td id="to_currency"></td>
                             <td id="exchange_rate"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <table class="exchange-currency">
+                    <thead>
+                        <tr>
+                            <th id="from_exchange_currency"></th>
+                            <th id="to_exchange_currency"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input id="number-currency_from" type="number">
+                            </td>
+                            <td>
+                                <input id="number-currency_to" type="number">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
