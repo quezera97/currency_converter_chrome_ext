@@ -3,6 +3,7 @@ const swapButton = document.getElementById('swap-btn');
 const numberCurrencyFrom = document.getElementById('number-currency_from');
 const numberCurrencyTo = document.getElementById('number-currency_to');
 const exchangeTable = document.querySelector('.exchange-table');
+const priceTable = document.querySelector('.price-table');
 const exchangeCurrency = document.querySelector('.exchange-currency');
 
 var selectedCurrencyFrom = '';
@@ -70,6 +71,7 @@ async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
     if(selectedCurrencyFrom != '' && selectedCurrencyTo != ''){
         loadingIndicator.style.display = 'block';
         exchangeTable.style.display = 'none';
+        priceTable.style.display = 'none';
         exchangeCurrency.style.display = 'none';
 
         try {
@@ -93,6 +95,8 @@ async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
             const toCurrencyName = exchangeRateFromToInfo["4. To_Currency Name"];
             const lastRefreshed = exchangeRateFromToInfo["6. Last Refreshed"];
             const timeZone = exchangeRateFromToInfo["7. Time Zone"];
+            const bidPrice = exchangeRateFromToInfo["8. Bid Price"];
+            const askPrice = exchangeRateFromToInfo["9. Ask Price"];
             
             exchangeRateFromTo = exchangeRateFromToInfo["5. Exchange Rate"];
             exchangeRateToFrom = exchangeRateToFromInfo["5. Exchange Rate"];
@@ -106,14 +110,18 @@ async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
             document.getElementById("to_currency").innerHTML = toCurrency;
             document.getElementById("to_exchange_currency").innerHTML = toCurrency;
             document.getElementById("exchange_rate").innerHTML = exchangeRateFromTo;
+            document.getElementById("bid_price").innerHTML = bidPrice;
+            document.getElementById("ask_price").innerHTML = askPrice;
             document.getElementById("refresh_time").innerHTML = refreshTime;
 
             loadingIndicator.style.display = 'none';
             exchangeTable.style.display = 'table';
+            priceTable.style.display = 'table';
             exchangeCurrency.style.display = 'table';
         } catch (error) {
             loadingIndicator.style.display = 'none';
             exchangeTable.style.display = 'none';
+            priceTable.style.display = 'none';
             exchangeCurrency.style.display = 'none';
         }
 
@@ -124,6 +132,8 @@ async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
     else{
         document.getElementById("from_currency").innerHTML = '-';
         document.getElementById("from_exchange_currency").innerHTML = '-';
+        document.getElementById("bid_price").innerHTML = '-';
+        document.getElementById("ask_price").innerHTML = '-';
         document.getElementById("to_currency").innerHTML = '-';
         document.getElementById("to_exchange_currency").innerHTML = '-';
         document.getElementById("exchange_rate").innerHTML = '-';

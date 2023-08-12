@@ -50,12 +50,12 @@ h3 {
     text-align: center;
 }
 
-.exchange-table, .exchange-currency {
+table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.exchange-table th, .exchange-table td, .exchange-currency th, .exchange-currency td {
+th, td{
     padding: 10px;
     border: 1px solid #ddd;
 }
