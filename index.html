@@ -5,14 +5,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="node_modules/select2/dist/css/select2.min.css"/>
-        <link rel="stylesheet" href="assets/style.css">
+        <link rel="stylesheet" href="style/bootstrap-5.3.2.min.css">
+        <link rel="stylesheet" href="style/select2-4.1.0.min.css">
+        <link rel="stylesheet" href="style/style.css">
     </head>
 
     <body>
         <div class="container">
-            <h1 class="title">Forex (FX)</h1>
+            <h1 class="title">Currency Converter</h1>
             <h5 id="refresh_time" class="date"></h5>
             <hr>
             <div class="exchange-container">
@@ -343,21 +343,9 @@
                     </tbody>
                 </table>
                 <hr>
-                <table class="price-table">
-                    <thead>
-                        <tr>
-                            <th>Bid Price</th>
-                            <th>Ask Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="bid_price"></td>
-                            <td id="ask_price"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <hr>
+                <p id="failed-currency">
+                    No information available
+                </p>
                 <table class="exchange-currency">
                     <thead>
                         <tr>
@@ -381,9 +369,9 @@
                 </div>
             </div>
         </div>
-
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/select2/dist/js/select2.full.min.js"></script>
+        <script src="script/bootstrap-5.3.2.bundle.min.js"></script>
+        <script src="script/jquery-3.7.2.min.js"></script>
+        <script src="script/select2-4.1.0.min.js"></script>
         <script src="script/script.js"></script>
     </body>
 </html>

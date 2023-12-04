@@ -1,18 +1,18 @@
-const loadingIndicator = document.getElementById('loading-indicator');
-const swapButton = document.getElementById('swap-btn');
-const numberCurrencyFrom = document.getElementById('number-currency_from');
-const numberCurrencyTo = document.getElementById('number-currency_to');
-const exchangeTable = document.querySelector('.exchange-table');
-const priceTable = document.querySelector('.price-table');
-const exchangeCurrency = document.querySelector('.exchange-currency');
+$(document).ready(function() {
+    const loadingIndicator = $('#loading-indicator');
+    const swapButton = $('#swap-btn');
+    const numberCurrencyFrom = $('#number-currency_from');
+    const numberCurrencyTo = $('#number-currency_to');
+    const exchangeTable = $('.exchange-table');
+    const exchangeCurrency = $('.exchange-currency');
 
-var selectedCurrencyFrom = '';
-var selectedCurrencyTo = '';
-var exchangeRateFromTo = 1.00;
-var exchangeRateToFrom = 1.00;
+    let selectedCurrencyFrom = '';
+    let selectedCurrencyTo = '';
+    let exchangeRateFromTo = 1.00;
+    let exchangeRateToFrom = 1.00;
 
-$(function () {
     $('.select2').select2();
+    $('#failed-currency').hide();
 
     selectedCurrencyFrom = 'MYR';
     selectedCurrencyTo = 'USD';
@@ -21,127 +21,100 @@ $(function () {
     $('#dropdown-currency_to').val(selectedCurrencyTo).trigger('change.select2');
 
     fetchData(selectedCurrencyFrom, selectedCurrencyTo);
-});
 
-swapButton.addEventListener("click", () => {
-    $('#dropdown-currency_from').val(selectedCurrencyTo).trigger('change.select2');
-    $('#dropdown-currency_to').val(selectedCurrencyFrom).trigger('change.select2');
+    $('#swap-btn').on("click", function() {
+        $('#dropdown-currency_from').val(selectedCurrencyTo).trigger('change.select2');
+        $('#dropdown-currency_to').val(selectedCurrencyFrom).trigger('change.select2');
 
-    selectedCurrencyFrom = $('#dropdown-currency_from').val();
-    selectedCurrencyTo = $('#dropdown-currency_to').val();
-    
-    var currencyFrom = $('#number-currency_from').val();
-    
-    var totalExchange = currencyFrom * exchangeRateToFrom;
-    numberCurrencyTo.value = totalExchange.toFixed(2);
+        selectedCurrencyFrom = $('#dropdown-currency_from').val();
+        selectedCurrencyTo = $('#dropdown-currency_to').val();
+        
+        const currencyFrom = $('#number-currency_from').val();
+        
+        const totalExchange = currencyFrom * exchangeRateToFrom;
+        numberCurrencyTo.val(totalExchange.toFixed(2));
 
-    fetchData(selectedCurrencyFrom, selectedCurrencyTo);
-});
+        fetchData(selectedCurrencyFrom, selectedCurrencyTo);
+    });
 
-numberCurrencyFrom.addEventListener("input", () => {
-    var currencyFrom = $('#number-currency_from').val();
+    $('#number-currency_from').on("input", function() {
+        const currencyFrom = $('#number-currency_from').val();
 
-    var totalExchange = currencyFrom * exchangeRateFromTo;
+        const totalExchange = currencyFrom * exchangeRateFromTo;
 
-    numberCurrencyTo.value = totalExchange.toFixed(2);
-});
+        numberCurrencyTo.val(totalExchange.toFixed(2));
+    });
 
-numberCurrencyTo.addEventListener("input", () => {
-    var currencyTo = $('#number-currency_to').val();
+    $('#number-currency_to').on("input", function() {
+        const currencyTo = $('#number-currency_to').val();
 
-    if(currencyTo != null){
-        var totalExchange = currencyTo * exchangeRateToFrom;
-    
-        numberCurrencyFrom.value = totalExchange.toFixed(2);
-    }
-});
+        if(currencyTo != null){
+            const totalExchange = currencyTo * exchangeRateToFrom;
+        
+            numberCurrencyFrom.val(totalExchange.toFixed(2));
+        }
+    });
 
-$('#dropdown-currency_from').on('change', function() {
-    selectedCurrencyFrom = $('#dropdown-currency_from').val();
-    fetchData(selectedCurrencyFrom, selectedCurrencyTo);
-});
+    $('#dropdown-currency_from').on('change', function() {
+        selectedCurrencyFrom = $('#dropdown-currency_from').val();
+        fetchData(selectedCurrencyFrom, selectedCurrencyTo);
+    });
 
-$('#dropdown-currency_to').on('change', function() {
-    selectedCurrencyTo = $('#dropdown-currency_to').val();
-    fetchData(selectedCurrencyFrom, selectedCurrencyTo);
-});
+    $('#dropdown-currency_to').on('change', function() {
+        selectedCurrencyTo = $('#dropdown-currency_to').val();
+        fetchData(selectedCurrencyFrom, selectedCurrencyTo);
+    });
 
-async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
+    async function fetchData(selectedCurrencyFrom, selectedCurrencyTo) {
+        if(selectedCurrencyFrom != '' && selectedCurrencyTo != ''){
+            loadingIndicator.css('display', 'block');
+            exchangeTable.css('display', 'none');
+            exchangeCurrency.css('display', 'none');
 
-    if(selectedCurrencyFrom != '' && selectedCurrencyTo != ''){
-        loadingIndicator.style.display = 'block';
-        exchangeTable.style.display = 'none';
-        priceTable.style.display = 'none';
-        exchangeCurrency.style.display = 'none';
+            try {
+                selectedCurrencyFrom = selectedCurrencyFrom.toLowerCase();
+                selectedCurrencyTo = selectedCurrencyTo.toLowerCase();
+                const responseCurrency = await fetch(`https://www.floatrates.com/daily/${selectedCurrencyFrom}.json`);
+                let dataCurrency = await responseCurrency.json();
+                dataCurrency = dataCurrency[selectedCurrencyTo];
 
-        try {
-            const responseFromTo = await fetch("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="+selectedCurrencyFrom+"&to_currency="+selectedCurrencyTo+"&apikey=T7RYI7VN24ZE7VA1");
-            const responseToFrom = await fetch("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="+selectedCurrencyTo+"&to_currency="+selectedCurrencyFrom+"&apikey=T7RYI7VN24ZE7VA1");
-            
-            const dataFromTo = await responseFromTo.json();
-            const dataToFrom = await responseToFrom.json();
+                const fromCurrencyCode = selectedCurrencyFrom;
+                const toCurrencyCode = dataCurrency['code'];
+                const lastRefreshed = dataCurrency['date'];
+                
+                exchangeRateFromTo = dataCurrency['rate'];
+                exchangeRateToFrom = dataCurrency['inverseRate'];
 
-            if(dataFromTo['Information'] || dataToFrom['Information']){
-                alert(dataFromTo['Information']);
-                return;
+                const fromCurrency = fromCurrencyCode.toUpperCase();
+                const toCurrency = toCurrencyCode.toUpperCase();
+                const refreshTime = lastRefreshed;
+
+                $('#from_currency').text(fromCurrency);
+                $('#from_exchange_currency').text(fromCurrency);
+                $('#to_currency').text(toCurrency);
+                $('#to_exchange_currency').text(toCurrency);
+                $('#exchange_rate').text(exchangeRateFromTo);
+                $('#refresh_time').text(refreshTime);
+
+                loadingIndicator.css('display', 'none');
+                exchangeTable.css('display', 'table');
+                exchangeCurrency.css('display', 'table');
+            } catch (error) {
+                loadingIndicator.css('display', 'none');
+                exchangeTable.css('display', 'none');
+                exchangeCurrency.css('display', 'none');
+
+                $('#failed-currency').show();
             }
 
-            const exchangeRateFromToInfo = dataFromTo["Realtime Currency Exchange Rate"];
-            const exchangeRateToFromInfo = dataToFrom["Realtime Currency Exchange Rate"];
+            numberCurrencyFrom.removeAttr('disabled');
+            numberCurrencyTo.removeAttr('disabled');
+        } else {
+            $('#from_currency, #from_exchange_currency, #to_currency, #to_exchange_currency, #exchange_rate').text('-');
+            $('#refresh_time').text('');
             
-            const fromCurrencyCode = exchangeRateFromToInfo["1. From_Currency Code"];
-            const fromCurrencyName = exchangeRateFromToInfo["2. From_Currency Name"];
-            const toCurrencyCode = exchangeRateFromToInfo["3. To_Currency Code"];
-            const toCurrencyName = exchangeRateFromToInfo["4. To_Currency Name"];
-            const lastRefreshed = exchangeRateFromToInfo["6. Last Refreshed"];
-            const timeZone = exchangeRateFromToInfo["7. Time Zone"];
-            const bidPrice = exchangeRateFromToInfo["8. Bid Price"];
-            const askPrice = exchangeRateFromToInfo["9. Ask Price"];
-            
-            exchangeRateFromTo = exchangeRateFromToInfo["5. Exchange Rate"];
-            exchangeRateToFrom = exchangeRateToFromInfo["5. Exchange Rate"];
-
-            var fromCurrency = fromCurrencyCode+' - '+fromCurrencyName;
-            var toCurrency = toCurrencyCode+' - '+toCurrencyName;
-            var refreshTime = lastRefreshed+' ('+timeZone+')';
-
-            document.getElementById("from_currency").innerHTML = fromCurrency;
-            document.getElementById("from_exchange_currency").innerHTML = fromCurrency;
-            document.getElementById("to_currency").innerHTML = toCurrency;
-            document.getElementById("to_exchange_currency").innerHTML = toCurrency;
-            document.getElementById("exchange_rate").innerHTML = exchangeRateFromTo;
-            document.getElementById("bid_price").innerHTML = bidPrice;
-            document.getElementById("ask_price").innerHTML = askPrice;
-            document.getElementById("refresh_time").innerHTML = refreshTime;
-
-            loadingIndicator.style.display = 'none';
-            exchangeTable.style.display = 'table';
-            priceTable.style.display = 'table';
-            exchangeCurrency.style.display = 'table';
-        } catch (error) {
-            loadingIndicator.style.display = 'none';
-            exchangeTable.style.display = 'none';
-            priceTable.style.display = 'none';
-            exchangeCurrency.style.display = 'none';
+            numberCurrencyFrom.val('0.00').attr('disabled', true);
+            numberCurrencyTo.val('0.00').attr('disabled', true);
         }
-
-        numberCurrencyFrom.removeAttribute('disabled');
-        numberCurrencyTo.removeAttribute('disabled');
-        
     }
-    else{
-        document.getElementById("from_currency").innerHTML = '-';
-        document.getElementById("from_exchange_currency").innerHTML = '-';
-        document.getElementById("bid_price").innerHTML = '-';
-        document.getElementById("ask_price").innerHTML = '-';
-        document.getElementById("to_currency").innerHTML = '-';
-        document.getElementById("to_exchange_currency").innerHTML = '-';
-        document.getElementById("exchange_rate").innerHTML = '-';
-        document.getElementById("refresh_time").innerHTML = '';
-        
-        numberCurrencyFrom.value = 0.00;
-        numberCurrencyFrom.setAttribute('disabled', true);
-        numberCurrencyTo.value = 0.00;
-        numberCurrencyTo.setAttribute('disabled', true);
-    }
-}
+});
