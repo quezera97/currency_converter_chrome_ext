@@ -1,6 +1,5 @@
 $(document).ready(function() {
     const loadingIndicator = $('#loading-indicator');
-    const swapButton = $('#swap-btn');
     const numberCurrencyFrom = $('#number-currency_from');
     const numberCurrencyTo = $('#number-currency_to');
     const exchangeTable = $('.exchange-table');

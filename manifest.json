@@ -1,15 +1,16 @@
 {
-    "name": "Forex (FX)",
+    "name": "Currency Converter",
     "version": "1.0.0",
-    "description": "Forex currency exchange including cryptocurrency",
+    "description": "A simple and updated currency converter",
     "manifest_version": 3,
     "author": "QueZera",
     "action":{
-        "default_popup": "index.html"
+        "default_popup": "index.html",
+        "default_title": "Currency Converter"
     },
     "icons": {
-        "16": "assets/currency.png",
-        "48": "assets/currency.png",
-        "128": "assets/currency.png"
+        "16": "assets/logo-16.png",
+        "48": "assets/logo-48.png",
+        "128": "assets/logo-128.png"
     }
 }
